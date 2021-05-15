@@ -18,8 +18,8 @@ exports.getUserRegister = (req, res) =>
 
 exports.userDashboard =  (req, res) =>
     res.render('dashboard', {
-    user: req.user,
-    pageTitle: 'Dashboard'
+        user: req.user,
+        pageTitle: 'Dashboard'
 })
 
 
@@ -49,37 +49,45 @@ exports.userRegister = (req,res)=>{
           errors, name, nickname,email, password, password2, pageTitle: 'Register'
       });
   }else{
-      //validation pass
-      User.findOne({email: email})
-          .then(user =>{
-                  const newUser = new User({
-                      name,
-                      nickname,
-                      email,
-                      password
-                  });
-                  //hashpassword
-                  bcrypt.genSalt(10, (err, salt)=>{
-                      bcrypt.hash(newUser.password, salt, (err,hash) => {
-                          if(err) throw err;
 
-                          //setpassword to hash
-                          newUser.password = hash;
-                          //save the user
-                          newUser.save()
-                              .then(user => {
-                                  req.flash('success_msg','You are now Registered and can Log in'); //flash message for success user registation
-                                  res.redirect('/');
-                              })
-                              .catch(err => console.log(err));
-                      })
-                  })
-                  console.log(user);
-              
-          })
-          .catch((err)=>{
-              console.log(err);
-          });
+    User.findOne({ where: { email: email } })
+    
+    .then(user =>{
+        if(user){
+            //user exist
+            errors.push({ msg: 'Email is already Taken'});
+            res.render('register', {
+                errors, name, nickname,email, password, password2,  pageTitle: 'Register'
+            });
+        }else{
+            const newUser = new User({
+                name,
+                nickname,
+                email,
+                password
+            });
+            //hashpassword
+            bcrypt.genSalt(10, (err, salt)=>{
+                bcrypt.hash(newUser.password, salt, (err,hash) => {
+                    if(err) throw err;
+
+                    //setpassword to hash
+                    newUser.password = hash;
+                    //save the user
+                    newUser.save()
+                        .then(user => {
+                            req.flash('success_msg','You are now Registered and can Log in'); //flash message for success user registation
+                            res.redirect('/');
+                        })
+                        .catch(err => console.log(err));
+                })
+            })
+        }
+    })
+    .catch((err)=>{
+        console.log(err);
+    });
+
   }
 }, 
 

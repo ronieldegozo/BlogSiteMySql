@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
+
 const { userDashboard, userHome } = require('../controller/users');
 
 // Welcome Page

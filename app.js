@@ -20,7 +20,7 @@ const session = require('express-session');
 const app = express();
 //PASSPORT CONFIG
 require('./api/config/passport')(passport);
-
+ 
 //db config
 // const db = require('./api/config/keys').MongoURI;
 // mongoose.connect(db, {useNewUrlParser: true, useUnifiedTopology: true})

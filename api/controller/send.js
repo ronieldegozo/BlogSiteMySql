@@ -29,7 +29,7 @@ exports.postSend = (req, res) => {
       secure: false, // true for 465, false for other ports
       auth: {
           user: 'lauritosamber@gmail.com', // generated ethereal user
-          pass: 'Myloves061617'  // generated ethereal password
+          pass: 'Samber_061617'  // generated ethereal password
       },
       tls:{
         rejectUnauthorized:false
@@ -53,9 +53,6 @@ exports.postSend = (req, res) => {
         console.log('Message sent: %s', info.messageId);   
         console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
   
-        res.render('welcome', {
-            msg:'Email has been sent', 
-            pageTitle: 'Home'
-        });
+        res.redirect('/');
     });
     }
