@@ -8,8 +8,6 @@ const bodyparser = require('body-parser');
 const sequelize = require('./api/util/database');
 
 const {get404} = require('./api/controller/404');
-const blogRoutes = require('./api/routes/blog');
-const productRoutes = require('./api/routes/product');
 
 
 //flash message
@@ -21,17 +19,6 @@ const app = express();
 //PASSPORT CONFIG
 require('./api/config/passport')(passport);
  
-//db config
-// const db = require('./api/config/keys').MongoURI;
-// mongoose.connect(db, {useNewUrlParser: true, useUnifiedTopology: true})
-//     .then(()=>{
-//         console.log('MongoDb Connected');
-//     })
-//     .catch(err =>{
-//         console.log(err);
-//     });
-
-
 
 //EJS
 app.use(expressLayouts);
@@ -67,22 +54,10 @@ app.use((req,res,next)=>{
 })
 
 
-
-
-//routes
-//users
 app.use('/', require('./api/routes/index'));
 app.use('/users', require('./api/routes/users'));
 
 app.use(require('./api/routes/send'));
-
-
-//posting a new blog
-app.use('/blogs', blogRoutes);
-
-//posting product
-app.use('/products', productRoutes);
-
 
 //error code
 app.use(get404);
@@ -100,5 +75,3 @@ sequelize
     console.log(err);
 })
 
-
-//degozo
